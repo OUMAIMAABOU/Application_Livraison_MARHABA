@@ -2,12 +2,9 @@
 const mongoose=require('mongoose')
 
 mongoose.connect(process.env.MONG_URL,
-  {
-     
-useNewUrlParser: true, 
-
-useUnifiedTopology: true 
-    }
-)
-.then(reresults=>console.log('connection succ'))
+{ 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+})
+.then(reresults=>console.log('connection succ',reresults))
 .catch((err=> console.log(err)))  

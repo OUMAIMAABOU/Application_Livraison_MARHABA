@@ -1,10 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-
-const app = express()
 const mongoose = require('./Config/dbconfig');
+const app = express()
 
- 
 
 require("./Routers/AuthentificationRouter")(app);
 
