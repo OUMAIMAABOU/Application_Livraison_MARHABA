@@ -5,9 +5,16 @@ const Schema = mongoose.Schema;
 try{
   const User = new Schema({
     Name:  String, 
-},{timestamps:true});
-module.exports= User = mongoose.model("User", User);  
+    Email:{String,unique},
+    Password:String,
+    Image:Text,
+    PhoneNumber:String,
+    Adress:String
+
+},{timestamps:true})
 }  catch (error) {
-    console.error(error)
- }
+  console.error(error)
+}
+module.exports= User = mongoose.model("User", User);  
+
 

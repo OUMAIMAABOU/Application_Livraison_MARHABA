@@ -6,5 +6,5 @@ mongoose.connect(process.env.MONG_URL,
   useNewUrlParser: true, 
   useUnifiedTopology: true 
 })
-.then(reresults=>console.log('connection succ',reresults))
+.then(reresults=>console.log('connection succ'))
 .catch((err=> console.log(err)))  
