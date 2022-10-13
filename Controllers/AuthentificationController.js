@@ -7,7 +7,6 @@
       })       
   };
 
-
   exports.Register = (req, res) => {
     res.status(200).send({
       name:req.body.name,
