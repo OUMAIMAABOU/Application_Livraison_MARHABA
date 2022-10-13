@@ -1,6 +1,13 @@
-const mongoose=require('mongoose')
-module.exports=
- mongoose.connect(process.env.MONG_URL)
-.then(reresults=>console.log('connection succ',reresults))
-.catch((err=> console.log(err)))   
 
+const mongoose=require('mongoose')
+
+mongoose.connect(process.env.MONG_URL,
+  {
+     
+useNewUrlParser: true, 
+
+useUnifiedTopology: true 
+    }
+)
+.then(reresults=>console.log('connection succ'))
+.catch((err=> console.log(err)))  
