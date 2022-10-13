@@ -4,11 +4,10 @@ const mongoose=require('mongoose')
 const app = express()
 app.use(express.json())
 
-mongoose.connect(process.env.MONG_URL,()=>{
-    console.log('connect mongo')
-});
 
+
+require("./Routers/AuthentificationRouter")(app);
 
 app.listen(process.env.PORT||3030,()=>{
-    console.log('is connected',process.env.PORT)
+    console.log('Port:',process.env.PORT)
 })
