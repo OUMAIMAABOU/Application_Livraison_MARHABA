@@ -1,5 +1,7 @@
 const CatchError = require('../Utils/CatchError')
 const User = require('../Models/UserModel');
+const role = require('../Models/RoleModel');
+
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const localstorage=require('local-storage')
@@ -13,7 +15,6 @@ const localstorage=require('local-storage')
       const {body}=req
       User.findOne({email:body.email}).then(data=>{
         const payload=data
-
        if(data){
          bcryptjs.compare(body.password,data.password).then(data =>{
           console.log(data)
@@ -33,9 +34,7 @@ const localstorage=require('local-storage')
             })
        }else{
         res.send("not")
-       }
-           
-      
+       }      
           // res.send("email deja existe")
     }).catch(e=>{
       res.send("im in not login")
@@ -60,7 +59,7 @@ const localstorage=require('local-storage')
                res.send('created' )
               }).catch((err)=>{
                res.send('not created')
-              })       
+              })
           }).catch(e=>{
            res.send('err')
      
@@ -74,18 +73,6 @@ const localstorage=require('local-storage')
     res.send(e)
 
          })
-    //  bcryptjs.hash(body.password,10).then((e)=>{
-    //    body.password=e
-    //   User.create({...body}).then(()=>{
-    //       res.send('created' )
-    //      }).catch((err)=>{
-    //       res.send('not created')
-    //      })       
-    //  }).catch(e=>{
-    //   res.send('err')
-
-    //  })
-   
   };
 
 // method : post => url : api/auth/login =>acces : Public
