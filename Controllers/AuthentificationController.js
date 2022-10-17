@@ -1,10 +1,10 @@
 const CatchError = require('../Utils/CatchError')
 const User = require('../Models/UserModel');
 const role = require('../Models/RoleModel');
-
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const localstorage=require('local-storage')
+const {sendEmail}= require('../Config/nodemailer')
 
 
 
@@ -43,37 +43,46 @@ const localstorage=require('local-storage')
           
    
 }
- 
-
 // method : post => url : api/auth/Register =>acces : Public
   exports.Register = (req, res) => {
     const {body}=req
      if(!body){
       throw new CatchError(`Remplir tous les champs`,400);
      }
-    User.findOne({email:body.email}).then((e)=>{
-      if(!e){
-          bcryptjs.hash(body.password,10).then((e)=>{
-            body.password=e
-           User.create({...body}).then(()=>{
+  //  try{
+     bcryptjs.hash(body.password,10).then((hashpassword)=>{
+            body.password=hashpassword
+           bcryptjs.hash(hashpassword,10).then((hashname)=>{
+            const token=hashname.replace('/', '')
+            body.token=token
+            User.create({...body}).then(()=>{
                res.send('created' )
+               sendEmail(body.email,token,body.name)  
               }).catch((err)=>{
-               res.send('not created')
-              })
-          }).catch(e=>{
-           res.send('err')
-     
+               res.send(err)
+               
+              })     
           })
-      }else{
-        res.send("email deja existe")
-
-      }
-        
-  }).catch(e=>{
-    res.send(e)
-
-         })
+           })
+  //  }catch(e){
+  //   new CatchError(e,400)
+  //  }
+         
+           
   };
+
+  // method : put => url : api/auth/configiration/:token =>acces : Public
+
+  exports.verificationtoken =  (req,res) => 
+  {
+ 
+          User.updateOne({token:req.params.token},{is_active:true}).then(result=>{
+             res.send(result)
+          }).catch(e=>{
+        console.log(e)
+      })
+        
+  }
 
 // method : post => url : api/auth/login =>acces : Public
   exports.ResetPassword = (req, res) => 
