@@ -10,6 +10,8 @@ module.exports = app => {
 
        router.post('/resetpassword/:token',Authentification.ResetPassword)
        router.put('/configiration/:token',Authentification.verificationtoken)
+       router.get('/getall',Authentification.get)
+
 
        
     app.use('/api/auth/', router);
