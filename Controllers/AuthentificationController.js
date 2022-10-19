@@ -8,25 +8,23 @@ const {sendEmail}= require('../Config/nodemailer')
 
 
 
-
-
-
-
 // method : post => url : api/auth/login =>acces : Public
  exports.Login = async (req,res) => {
     try{
       const {body}=req
-       const users=await User.findOne({email:body.email})
+       const users=await User.findOne({email:body.email}).populate({path: 'roleid', model: role,})
        if(users){
         const verificationpasswrd=await bcryptjs.compare(body.password,users.password)
           if(verificationpasswrd){
             if(users.is_active){
-            localstorage('token',gererateAccessToken({users},"10m"))
-              res.send(localstorage('token')) 
-              
+            localstorage('token',gererateAccessToken({ user_id:users._id},"10m"))
+             res.json({id:users._id,
+               name:users.name,
+               role:users.roleid.role,
+              token:localstorage('token')})
+              res.redirect('/get')
             }else{
               res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
-              // console.log(payload.email,payload.token,payload.name)
               sendEmail(payload.email,payload.token,payload.name)  
             }
             }else res.send("password invalide")
@@ -36,7 +34,9 @@ const {sendEmail}= require('../Config/nodemailer')
           return res.status(400).send({
             message: e,
           })  
-         }   
+         } 
+         
+         
               
 }
 // method : post => url : api/auth/Register =>acces : Public
@@ -46,8 +46,7 @@ const {sendEmail}= require('../Config/nodemailer')
       throw new CatchError(`Remplir tous les champs`,400);
      }
    try{
-    const emailFormat= /^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/ 
-    if(body.email.match(emailFormat)){
+    if(verificationemail(body.email)){
       body.password=await bcryptjs.hash(body.password,10)
       const hashname=await bcryptjs.hash(body.password,10)
       const token =hashname.replace('/', '')
@@ -55,13 +54,11 @@ const {sendEmail}= require('../Config/nodemailer')
       const createuser= await User.create({...body})
       sendEmail(body.email,token,body.name)  
       res.status(201).json({createuser})
-    }
-   }catch(e){
-    return res.status(400).send({
-      message: e,
-    })   }
-         
-           
+    }else res.send('invalide mail')
+   }catch(e)
+   {
+    return res.status(400).send({message: e}) 
+    }            
   };
 
   exports.get =  (req,res) => 
@@ -78,7 +75,6 @@ const {sendEmail}= require('../Config/nodemailer')
 }   
 
   // method : put => url : api/auth/configiration/:token =>acces : Public
-
   exports.verificationtoken =  (req,res) => 
   { 
      User.updateOne({token:req.params.token},{is_active:true}).then(result=>{
@@ -88,19 +84,28 @@ const {sendEmail}= require('../Config/nodemailer')
       }) 
   }
 
+
   function gererateAccessToken (user,expirestime) {
     return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:expirestime})
    }
    function refreshToken (user) {
     return jwt.sign(user,process.env.REFRESH_TOKEN)
    }
+// function de validation email
+   function verificationemail(email) {
+    return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
+   }
+
 // method : post => url : api/auth/login =>acces : Public
   exports.ResetPassword = (req, res) => 
   {
     res.status(200).send('token welcom to '+req.pramas)     
   };
 
-
-
-
-
+  exports.ForgetPassword  = async(req, res) => 
+  {
+    const user =await User.findOne(req.body.email)
+    localstorage('token',gererateAccessToken({users},"10m"))
+    res.json({id:user._id, name:user.name, role:user.roleid.role,token:localstorage('token')})
+    sendEmail(user.email,user.token,user.name)  
+  }

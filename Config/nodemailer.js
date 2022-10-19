@@ -1,8 +1,4 @@
-
   const nodemailer = require("nodemailer");
-
-
-
 
   let transporter = nodemailer.createTransport({
     service:process.env.SERVICE,
@@ -11,8 +7,6 @@
       pass: process.env.PASSEMAIL, 
     },
   });
-
-
    exports.sendEmail = (email,activemail,username)=>{
     transporter.sendMail({
       from: process.env.USER, 
