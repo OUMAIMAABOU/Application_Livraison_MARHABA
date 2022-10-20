@@ -5,8 +5,8 @@ const router = require("express").Router();
 const Authentification = require("../Controllers/AuthentificationController.js");
 module.exports = app => {    
        router.post('/login',Authentification.Login)
-       router.post("/welcome", verifyToken(["Livreure"]), (req, res) => {
-         res.json("Welcome "+req.user.payload.name+" " +req.user.payload.role);
+       router.post("/welcome", verifyToken(), (req, res) => {
+         res.json("Bonjour "+req.user.payload.username+",votre rôle est :" +req.user.payload.role);
        });
        router.post('/register',Authentification.Register)
        router.put('/resetpassword/:token',Authentification.changepassword)
