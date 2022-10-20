@@ -86,7 +86,7 @@ const crypto = require("crypto");
     const user = await User.findOne({email:req.body.email})
     if(!user) res.send('invalide mail')
         localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
-        // console.log(token)
+        console.log(token)
     sendEmail(user.email,token,user.name,'to reset your password','/api/auth/resetpassword/')  
     res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
   };
@@ -104,7 +104,9 @@ const crypto = require("crypto");
   exports.ForgetPassword  = async(req, res) => 
   {
     const user =await User.findOne({email:req.body.email})
-    localstorage('token',gererateAccessToken({user},"10m"))
+    localstorage('token',gererateAccessToken({id:user._id},"10m"))
     res.json({id:user._id, name:user.name, role:user.roleid.role,token:localstorage('token')})
-    sendEmail(user.email,user.token,user.name)  
+    sendEmail(user.email,localstorage('token'),user.name,'your password is ','/api/auth/resetpassword/')  
+
+    // sendEmail(user.email,user.token,user.name)  
   }
