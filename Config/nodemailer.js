@@ -7,12 +7,12 @@
       pass: process.env.PASSEMAIL, 
     },
   });
-   exports.sendEmail = (email,activemail,username)=>{
+   exports.sendEmail = (email,activemail,username,msg,route)=>{
     transporter.sendMail({
       from: process.env.USER, 
       to: email, 
       subject: "confirmer email",  
-      html: "<h3>HELLO " + username+'?</h3><p> Please click <a href="http://localhost:8080/api/auth/configiration/'+activemail+ '"> here </a> to activate your account.</p>',
+      html: "<h3>HELLO " + username+'?</h3><p> Please click <a href="http://localhost:8080'+route+activemail+ '"> here </a> '+msg+'</p>',
     },(error,info)=>{
         if(error){
             console.log(error);

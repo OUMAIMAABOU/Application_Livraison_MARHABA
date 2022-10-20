@@ -1,21 +1,17 @@
 const CatchError = require('../Utils/CatchError')
-const Middleware=require('../Middleware/AuthentificationMiddleware')
-
-module.exports = app => {
-    const router = require("express").Router();
-    const Authentification = require("../Controllers/AuthentificationController.js");
-   
+const {verifyToken}=require('../Middleware/AuthentificationMiddleware')
+const router = require("express").Router();
+const Authentification = require("../Controllers/AuthentificationController.js");
+module.exports = app => {    
        router.post('/login',Authentification.Login)
-   //     router.get('/get',Middleware,(req,res)=>{
-   //       res.send('hello')
-   //   })
-
-
+      //  router.post("/welcome", verifyToken, (req, res) => {
+      //    res.json("Welcome 🙌");
+      //  });
        router.post('/register',Authentification.Register)
+       router.put('/resetpassword/:token',Authentification.changepassword)
+      router.post('/resetpassword',Authentification.ResetPassword)
 
-       router.post('/resetpassword/:token',Authentification.ResetPassword)
        router.put('/configiration/:token',Authentification.verificationtoken)
-       router.get('/getall',Authentification.get)
 
 
        
