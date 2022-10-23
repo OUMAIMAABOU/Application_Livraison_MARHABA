@@ -80,7 +80,7 @@ const crypto = require("crypto");
     return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
    }
 
-// method : post => url : api/auth/login =>acces : Public
+// method : put => url : api/auth/login =>acces : private
   exports.ResetPassword =async (req, res) => 
   {
    const userone= await User.findOne({_id:req.user.payload.userId})
@@ -91,8 +91,10 @@ const crypto = require("crypto");
     .then( result=>{res.send(result) })
     .catch(e=>{ res.send(e)}) 
       
-  }else res.send('incroe')
+  }else res.send('password invalide')
   }
+  // method : put => url : api/auth/forgetpassword/:token =>acces : private
+
   exports.changepassword =async (req, res) => 
   {
     const decodedToken = jwt.verify(localstorage('verifitoken'),process.env.ACCESS_TOKEN);
@@ -104,6 +106,7 @@ const crypto = require("crypto");
     .catch(e=>{ console.log(e)}) 
   };
 
+// method : post => url : api/auth/forgetpassword =>acces : public
   exports.ForgetPassword  = async(req, res) => 
   {
     const user = await User.findOne({email:req.body.email})
@@ -112,3 +115,10 @@ const crypto = require("crypto");
     sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
     res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
   }
+
+  // method : get => url : api/auth/welcome =>acces : private
+  exports.welcome  = async(req, res) => 
+  {
+    res.json("Bonjour "+req.user.payload.username+",votre rôle est :" +req.user.payload.role)
+  }
+
