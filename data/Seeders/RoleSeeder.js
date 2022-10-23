@@ -8,8 +8,7 @@ console.log(roles)
 //remplire table roles 
 //commande :npm run roles:import
 
-		 role.insertMany(roles);
-
+	    role.insertMany(roles);
 		console.log('Data Imported');
 		process.exit();
 

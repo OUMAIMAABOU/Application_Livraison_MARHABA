@@ -1,14 +1,11 @@
 const roles = [
 	{  
-	
 		role: 'Manager',
 	},
-	{
-		
+	{		
 		role: 'Livreure',
 	},
-	{
-		
+	{	
 		role: 'Client',
 	},
 ];
