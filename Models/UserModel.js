@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 // create table user
 
-  const user = new Schema({
+  const user = new mongoose.Schema({
     name: {
       type: String
     }, 
     email:{
       type: String,
-      unique: true
+      unique: true,
+      required: true
     },
     password:String,
     token:String,
@@ -19,9 +19,10 @@ const Schema = mongoose.Schema;
     image:String,
     phoneNumber:String,
     adress:String,
-    roleid:{type: Schema.Types.ObjectId, ref: 'roles'}
+    roleid:{type: mongoose.Schema.Types.ObjectId, ref: 'roles'}
 
 },{timestamps:true})
+
  module.exports= mongoose.model("users", user);
 
 
