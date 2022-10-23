@@ -23,8 +23,11 @@ const crypto = require("crypto");
             localstorage('token',gererateAccessToken({payload},"120m"))
              res.json({payload})
             }else{
+             const token=crypto.randomBytes(32).toString("hex")
+             console.log(token)
+            const updatetoken=await User.updateOne({_id:users._id},{token:token})
               res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
-              sendEmail(payload.email,payload.token,payload.username,'to activate your account','/api/auth/configiration/')  
+              sendEmail(payload.email,token,payload.username,'to activate your account','/api/auth/configiration/')  
             }
             }else res.send("password invalide")
           }else res.send("can't find user")
@@ -71,9 +74,7 @@ const crypto = require("crypto");
   function gererateAccessToken (user,expirestime) {
     return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:expirestime})
    }
-   function refreshToken (user) {
-    return jwt.sign(user,process.env.REFRESH_TOKEN)
-   }
+ 
 // function de validation email
    function verificationemail(email) {
     return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
@@ -82,30 +83,32 @@ const crypto = require("crypto");
 // method : post => url : api/auth/login =>acces : Public
   exports.ResetPassword =async (req, res) => 
   {
-    const user = await User.findOne({email:req.body.email})
-    if(!user) res.send('invalide mail')
-    const token= localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
-        console.log(token)
-    sendEmail(user.email,token,user.name,'to reset your password','/api/auth/resetpassword/')  
-    res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
-  };
+   const userone= await User.findOne({_id:req.user.payload.userId})
+      const verificationpasswrd= await bcryptjs.compare(req.body.password,userone.password)
+   const password=await bcryptjs.hash(req.body.passwordnew,10)
+  if(verificationpasswrd){
+    User.updateOne({email:req.user.payload.email},{password:password})
+    .then( result=>{res.send(result) })
+    .catch(e=>{ res.send(e)}) 
+      
+  }else res.send('incroe')
+  }
   exports.changepassword =async (req, res) => 
   {
     const decodedToken = jwt.verify(localstorage('verifitoken'),process.env.ACCESS_TOKEN);
     if(!decodedToken)console.log('error  token')
     const userid = decodedToken.id;
     const password=await bcryptjs.hash(req.body.password,10)
-
     User.updateOne({_id:userid},{password:password})
     .then(result=>{res.send(result)})
     .catch(e=>{ console.log(e)}) 
   };
+
   exports.ForgetPassword  = async(req, res) => 
   {
-    const user =await User.findOne({email:req.body.email})
-    localstorage('token',gererateAccessToken({id:user._id},"10m"))
-    res.json({id:user._id, name:user.name, role:user.roleid.role,token:localstorage('token')})
-    sendEmail(user.email,localstorage('token'),user.name,'your password is ','/api/auth/resetpassword/')  
-
-    // sendEmail(user.email,user.token,user.name)  
+    const user = await User.findOne({email:req.body.email})
+    if(!user) res.send('invalide mail')
+   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
+    sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
+    res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
   }
