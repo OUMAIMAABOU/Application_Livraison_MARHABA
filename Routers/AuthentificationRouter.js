@@ -6,7 +6,7 @@ module.exports = app =>
   router.post('/register',Authentification.Register)
   router.post('/login',Authentification.Login)
   router.put('/configiration/:token',Authentification.verificationtoken)
-  router.put('/resetpassword',verifyToken(), Authentification.ResetPassword)
+  router.put('/resetpassword',verifyToken(["Manager","Livreure","Client"]), Authentification.ResetPassword)
   router.post('/forgetpassword',Authentification.ForgetPassword)
   router.put('/forgetpassword/:token',Authentification.changepassword)
   app.use('/api/auth/', router);
