@@ -10,6 +10,10 @@ app.use(express.urlencoded({extended:true}))
 
 
 require("./Routers/AuthentificationRouter")(app);
+require("./Routers/ClientRouter")(app);
+require("./Routers/LivreurRouter")(app);
+require("./Routers/ManagementRouter")(app);
+
 
 app.use(CatchError)
 app.use(RouteErrorHandler)

@@ -1,4 +1,4 @@
-  // Middleware qui test l'application en mode production or developement
+  // Middleware qui test l'application en mode production or developement and afficher errer
   module.exports= errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500
     res.status(statusCode) 

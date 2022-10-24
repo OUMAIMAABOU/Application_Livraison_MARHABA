@@ -22,7 +22,10 @@ const user = new mongoose.Schema(
   image:String,
   phoneNumber:String,
   adress:String,
-  roleid:{type: mongoose.Schema.Types.ObjectId, ref: 'roles'}
+  roleid:{
+    type: mongoose.Schema.Types.ObjectId,
+     ref: 'roles'
+    }
 },{timestamps:true})
 
  module.exports= mongoose.model("users", user);
