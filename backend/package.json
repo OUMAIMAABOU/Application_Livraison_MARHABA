@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "roles:import": "node data/seeders/RoleSeeder"
+    "roles": "node data/seeders/RoleSeeder"
   },
   "repository": {
     "type": "git",

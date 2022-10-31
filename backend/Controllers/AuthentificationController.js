@@ -46,7 +46,7 @@ exports.Register = async(req, res) => {
       await User.create({...body})
       res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
       sendEmail(body.email,body.token,body.name,'to activate your account','/api/auth/configiration/') 
-     }else res.send('invalide mail')
+    }else res.send('invalide mail')
   }catch(e)
   {
     return res.status(400).send({message: e}) 
@@ -110,4 +110,5 @@ exports.welcome  = async(req, res) =>
 {
   res.json("Bonjour "+req.user.payload.username+",votre rôle est :" +req.user.payload.role)
 }
+
 
