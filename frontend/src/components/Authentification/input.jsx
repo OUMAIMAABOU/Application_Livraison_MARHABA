@@ -14,19 +14,22 @@ const onSubmit=(e)=>{
   e.preventDefault()
   axios.post("http://localhost:8080/api/auth/login",Data)
   .then( (response) => {
-    console.log(response);
+    console.log(response.data);
+    
   })
   .catch(function (err) {
     console.log(err);
+
   });
 }
+
   return (
     <form onSubmit={onSubmit}>
     <div>
       <p className="mb-4">Please login to your account</p>
       <div className="mb-4">
         <input
-          type="text" id="email"   placeholder="mail" name="email"  onChange={onchange}
+          type="text" id="name"   placeholder="mail" name="email"  onChange={onchange}
           className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"      
         />
       </div>

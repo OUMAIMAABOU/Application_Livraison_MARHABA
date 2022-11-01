@@ -1,9 +1,32 @@
 // import Input from "./input";
-import { useState } from "react";
+import { useState,useRef,useEffect } from "react";
 import  axios from 'axios'
 
+const EMAIL_REGEX=/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/
 function Register() {
-  const [Data,setData]=useState({})
+  const errRef=useRef()
+  // const userRef=useRef()
+
+  const [Data,setData]=useState('')
+  // const [validemail,setValidemail]=useState(false)
+  // const [userFocus,setUserFocus]=useState(false)
+
+  const [errMsg,setErrMsg]=useState('')
+
+  const [sucess,setSucess]=useState(false)
+
+  // useEffect(()=>{
+  //   userRef.current.focus()
+  // },[])
+
+  // useEffect(() => {
+  //   setErrMsg("");
+  //   console.log('im here')
+  // }, [Data]);
+
+
+
+
       const onchange = (e) => {
         setData((prevState) =>({
             ...prevState,
@@ -12,16 +35,48 @@ function Register() {
     }
     const onSubmit=(e)=>{ 
       e.preventDefault()
-      axios.post("http://localhost:8080/api/auth/register",Data)
+      if (!Data) {
+        setErrMsg("Remplir tous les champs");
+        setData("");
+        return;
+      }
+      // if (!EMAIL_REGEX.test(Data)) {
+      //   setErrMsg("invalid email");
+      //   return;
+      // }
+      try {
+       
+        axios.post("http://localhost:8080/api/auth/register",Data)
       .then( (response) => {
+        // sucess(response)
         console.log(response);
+        setSucess("bien ajouter");
+        setData("");
+
       })
       .catch(function (err) {
-        console.log(err);
-        // this.showErrors(error.response.data.error)
+      
+        setErrMsg(err.message);
       });
+        
+      
+      } catch (err) {
+      
+        if (!err.response) {
+          setErrMsg("No Server Response");
+        } else if (err.response?.status === 409) {
+          setErrMsg("Username Taken");
+        } else {
+          setErrMsg("Registration Failed");
+        }
+        errRef.current.focus();
+      }
+      
     }
   return (
+    <>
+    <section>
+      
     <div className="App">
       <header className="App-header">
         <section className="h-full gradient-form bg-gray-200 md:h-screen">
@@ -43,7 +98,10 @@ function Register() {
                           </h4>
                         </div>
                         <form onSubmit={onSubmit}>
-                     
+                    
+                        <p className="text-red-500 font-bold text-center ">{errMsg}</p>
+                        <p className="text-green-500 font-bold text-center ">{sucess}</p>
+
                         <div>
                           <p className="mb-4">Please create your account</p>
                           <div className="mb-4">
@@ -54,7 +112,7 @@ function Register() {
                           </div>
                           <div className="mb-4">
                             <input
-                              type="text" id="email" name="email" placeholder="mail" onChange={onchange} 
+                              type="email" id="email" name="email" placeholder="mail" onChange={onchange} 
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"                            
                             />
                           </div>
@@ -120,6 +178,9 @@ function Register() {
         </section>
       </header>
     </div>
+    </section>
+    </>
+   
   );
 }
 
