@@ -1,7 +1,6 @@
 import Input from "./input";
 
 function Login() {
- 
   return (
     <div className="App">
       <header className="App-header">
@@ -9,7 +8,7 @@ function Login() {
         <section className="h-full gradient-form bg-gray-200 md:h-screen">
           <div className="container-fluid py-20 px-6 h-full">
             <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-              <div class="xl:w-10/12">
+              <div className="xl:w-10/12">
                 <div className="block bg-white shadow-lg rounded-lg">
                   <div className="lg:flex lg:flex-wrap g-0">
                     <div className="lg:w-6/12 px-4 md:px-0">
@@ -24,12 +23,10 @@ function Login() {
                             We are The Lotus Team
                           </h4>
                         </div>
-                        <form>
+                        
                           <Input></Input>
-                        </form>
-                        <button className="inline-block px-6 py-2.5 text-white btncolor">
-                          save
-                        </button>
+                        
+                        
                       </div>
                     </div>
                     <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">

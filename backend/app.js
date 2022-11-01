@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const cors= require('cors')
 const mongoose = require('./Config/dbconfig');
 const CatchError = require('./Middleware/CatchErrorMiddleware')
 const RouteErrorHandler= require('./Middleware/RouterMiddleware')
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 

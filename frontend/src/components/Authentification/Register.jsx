@@ -1,22 +1,33 @@
-import Input from "./input";
-import { useState,useEffect } from "react";
+// import Input from "./input";
+import { useState } from "react";
+import  axios from 'axios'
 
 function Register() {
-  const [Data,setData]=useState({
-    name:"",
-    email:"",
-    password:"",
-    address:"",
+  const [Data,setData]=useState({})
+      const onchange = (e) => {
+        setData((prevState) =>({
+            ...prevState,
+            [e.target.name]:e.target.value,
+        }))
+    }
+    const onSubmit=(e)=>{ 
+      e.preventDefault()
+      axios.post("http://localhost:8080/api/auth/register",Data)
+      .then( (response) => {
+        console.log(response);
       })
-      const {name,email,password,address}=Data
+      .catch(function (err) {
+        console.log(err);
+        // this.showErrors(error.response.data.error)
+      });
+    }
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <section className="h-full gradient-form bg-gray-200 md:h-screen">
           <div className="container-fluid py-20 px-6 h-full">
             <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-              <div class="xl:w-10/12">
+              <div className="xl:w-10/12">
                 <div className="block bg-white shadow-lg rounded-lg">
                   <div className="lg:flex lg:flex-wrap g-0">
                     <div className="lg:w-6/12 px-4 md:px-0">
@@ -31,45 +42,52 @@ function Register() {
                             We are The Lotus Team
                           </h4>
                         </div>
-                        <form>
-
+                        <form onSubmit={onSubmit}>
+                     
                         <div>
                           <p className="mb-4">Please create your account</p>
                           <div className="mb-4">
-                            <input type="text" id="name" name="name" placeholder="Username"
+                            <input type="text" id="name" name="name" placeholder="Username" onChange={onchange} 
+
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"                              
                             />
                           </div>
                           <div className="mb-4">
                             <input
-                              type="text" id="email" name="email" placeholder="mail"
+                              type="text" id="email" name="email" placeholder="mail" onChange={onchange} 
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"                            
                             />
                           </div>
                           <div className="mb-4">
                             <input
-                              type="text"id="address" name="address" placeholder="address"
+                              type="text"id="address" name="address" placeholder="address"onChange={onchange} 
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                               />
                           </div>
                           <div className="mb-4">
                             <input
-                              type="text"
+                              type="text" id="phoneNumber" name ="phoneNumber"placeholder="phone Number"onChange={onchange} 
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                              id="exampleFormControlInput1"
-                              placeholder="phone Number"
+                              
                             />
+                          </div>
+                          <div className="mb-4">                        
+                            <select name="roleid" id="role">
+                                <option value="">--Please choose an option--</option>
+                                <option value="6357b165f7dbe3fbe0e71f45">Manager</option>
+                                <option value="6357b165f7dbe3fbe0e71f47">Client</option>
+                                <option value="6357b165f7dbe3fbe0e71f46">Livreure</option>
+                            </select>
                           </div>
                           <div className="mb-4">
                             <input
-                              type="password"
+                              type="password"id="password" name="password" onChange={onchange}placeholder="Password"
                               className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                              id="exampleFormControlInput1"
-                              placeholder="Password"
+                              
                             />
                           </div>
                           <div className="text-center pt-1 mb-12 pb-1">
-                            <button className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 btncolor">
+                            <button type="submit" className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 btncolor">
                               Log in
                             </button>
                           </div>
@@ -78,9 +96,7 @@ function Register() {
                         </div>
                         
                         </form>
-                        <button className="inline-block px-6 py-2.5 text-white btncolor">
-                          save
-                        </button>
+                        
                       </div>
                     </div>
                     <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
