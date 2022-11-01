@@ -20,7 +20,7 @@ exports.Login = async (req,res) => {
         if(users.is_active)
         {
           localstorage('token',gererateAccessToken({payload},"120m"))
-          res.json({payload})
+          res.json(localstorage('token'))
         }else
         {
           const token=crypto.randomBytes(32).toString("hex")

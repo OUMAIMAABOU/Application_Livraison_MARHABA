@@ -15,7 +15,7 @@ const onSubmit=(e)=>{
   axios.post("http://localhost:8080/api/auth/login",Data)
   .then( (response) => {
     console.log(response.data);
-    
+    localStorage.setItem('token', response.data);
   })
   .catch(function (err) {
     console.log(err);
