@@ -25,7 +25,7 @@ exports.Login = async (req,res) => {
         {
           const token=crypto.randomBytes(32).toString("hex")
           await User.updateOne({_id:users._id},{token:token})
-          res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
+          res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
           sendEmail(payload.email,token,payload.username,'to activate your account','/api/auth/configiration/')  
         }
       }else res.send("password invalide")

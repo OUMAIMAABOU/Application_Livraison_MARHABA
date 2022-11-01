@@ -23,10 +23,8 @@ function Login() {
                             We are The Lotus Team
                           </h4>
                         </div>
-                        
-                          <Input></Input>
-                        
-                        
+
+                        <Input></Input>
                       </div>
                     </div>
                     <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
