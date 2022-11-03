@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import {useNavigate} from "react-router-dom";
+
 import axios from "axios";
 
 function InputLogin() {
-  const [Data, setData] = useState({});
+  const navig=useNavigate()
+  const [Data, setData] = useState({email:"",password:""});
+  const [errMsg, setErrMsg] = useState("");
+  const [sucess, setSucess] = useState("");
 
   const onchange = (e) => {
     setData((prevState) => ({
@@ -15,16 +20,46 @@ function InputLogin() {
     axios
       .post("http://localhost:8080/api/auth/login", Data)
       .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("token", response.data);
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+        localStorage.setItem("token", response.data.token);
+        console.log(response.data.role);
+
+        setData("");
+        setSucess(true);
+        // const accessToken = response?.data?.token;
+        // const roles = response?.data?.role;
+
+        })
+        .catch(function (err) {
+console.log(err.response)
+          if (!err.response) {
+            setErrMsg("No Server Response");
+          } else if (err.response?.status === 400) {
+            setErrMsg("password or email incorrect");
+          } 
+          // else {
+          //   setErrMsg("login Failed");
+          // } 
+          else {
+            setErrMsg(err);
+          }
+        });
   };
 
+//   useEffect(() => {
+//     {sucess ? (
+//       navig("/home")
+//     ):(console.log('err') )
+//   }
+// },[Data]);
+
+
   return (
+  
     <form onSubmit={onSubmit}>
+   
+            <p className="text-red-500 font-bold text-center "> {errMsg}</p>
+
+            <p className="text-green-500 font-bold text-center ">{sucess}</p>
       <div>
         <p className="mb-4">Please login to your account</p>
         <div className="mb-4">
@@ -70,7 +105,9 @@ function InputLogin() {
           </button>
         </div>
       </div>
+      
     </form>
+    
   );
 }
 

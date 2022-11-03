@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import {Navigate } from "react-router-dom";
+
 
 function InpuRegister() {
   const EMAIL_REGEX = /^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/;
@@ -70,14 +72,8 @@ function InpuRegister() {
       <form onSubmit={onSubmit}>
         {sucess ? (
           <section>
-            <h1>verify your Email address</h1>
-            <p>please confirm that you want to use your account </p>
-            <a
-              href="https://mail.google.com/mail/u/0/#inbox"
-              className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 btncolor"
-            >
-              Verfiy my email
-            </a>
+           
+             <Navigate to='/verification'/>
           </section>
         ) : (
           <section>
