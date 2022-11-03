@@ -124,18 +124,19 @@ function InpuRegister() {
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
               </div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <select
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                   name="roleid"
                   id="role"
+                  onChange={onchange}
                 >
-                  <option value="">--Please choose an option--</option>
+                  <option value="" >--Please choose an option--</option>
                   <option value="6357b165f7dbe3fbe0e71f45">Manager</option>
                   <option value="6357b165f7dbe3fbe0e71f47">Client</option>
                   <option value="6357b165f7dbe3fbe0e71f46">Livreure</option>
                 </select>
-              </div>
+              </div> */}
               <div className="mb-4">
                 <input
                   type="password"

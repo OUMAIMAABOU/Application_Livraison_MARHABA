@@ -20,7 +20,7 @@ exports.Login = async (req,res) => {
         if(users.is_active)
         {
           localstorage('token',gererateAccessToken({payload},"120m"))
-          res.json({token:localstorage('token'),role:users.roleid.role})
+          res.json(localstorage('token'))
         }else
         {
           const token=crypto.randomBytes(32).toString("hex")
@@ -30,7 +30,7 @@ exports.Login = async (req,res) => {
         }
       }
     }
-    //   else res.send("password invalide")
+      // else res.send("password invalide")
     // }else  res.send("can't find user")
   }catch(e){ return res.status(400).send({message:e})  }      
 }
@@ -43,8 +43,10 @@ exports.Register = async(req, res) => {
   {
     if(verificationemail(body.email))
     {
+     const findrole=await role.findOne({role:"Client"})
       body.password=await bcryptjs.hash(body.password,10)
       body.token=crypto.randomBytes(32).toString("hex")
+      body.roleid=findrole._id
       await User.create({...body})
       res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
       sendEmail(body.email,body.token,body.name,'to activate your account','/api/auth/configiration/') 

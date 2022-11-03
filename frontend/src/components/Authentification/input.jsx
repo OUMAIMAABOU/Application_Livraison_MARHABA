@@ -20,8 +20,7 @@ function InputLogin() {
     axios
       .post("http://localhost:8080/api/auth/login", Data)
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        console.log(response.data.role);
+        localStorage.setItem("token", response.data);
 
         setData("");
         setSucess(true);
@@ -45,12 +44,12 @@ console.log(err.response)
         });
   };
 
-//   useEffect(() => {
-//     {sucess ? (
-//       navig("/home")
-//     ):(console.log('err') )
-//   }
-// },[Data]);
+  useEffect(() => {
+    {sucess ? (
+      navig("/home")
+    ):(console.log('err') )
+  }
+},[Data]);
 
 
   return (
