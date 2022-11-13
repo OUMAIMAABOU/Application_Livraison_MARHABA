@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
-function Home() {
+function Dashboard() {
   const [user, setuser] = useState("");
-  axios.get("http://localhost:8080/api/auth/client/me").then((resp) => {
+  axios.get("http://localhost:8080/api/auth/manager/me").then((resp) => {
     setuser(resp.data);
   });
   return (
@@ -30,4 +30,4 @@ function Home() {
     </div>
   );
 }
-export default Home;
+export default Dashboard;

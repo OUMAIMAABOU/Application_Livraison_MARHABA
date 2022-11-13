@@ -20,7 +20,7 @@ exports.Login = async (req,res) => {
         if(users.is_active)
         {
           localstorage('token',gererateAccessToken({payload},"120m"))
-          res.json(localstorage('token'))
+          res.json({token:localstorage('token'),role:users.roleid.role})
         }else
         {
           const token=crypto.randomBytes(32).toString("hex")
@@ -49,7 +49,7 @@ exports.Register = async(req, res) => {
       body.roleid=findrole._id
       await User.create({...body})
       res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
-      sendEmail(body.email,body.token,body.name,'to activate your account','/api/auth/configiration/') 
+      sendEmail(body.email,body.token,body.name,'to activate your account','/configiration/') 
     }else res.send('invalide mail')
   }catch(e)
   {
@@ -105,7 +105,7 @@ exports.ForgetPassword  = async(req, res) =>
   const user = await User.findOne({email:req.body.email})
   if(!user) res.send('invalide mail')
   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
-  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
+  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/restpassword/')  
   res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
 }
 

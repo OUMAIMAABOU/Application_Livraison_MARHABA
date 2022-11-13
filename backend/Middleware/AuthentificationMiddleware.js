@@ -12,7 +12,7 @@ function verifyToken(access){
             {
                 req.user=jwt.verify(ls('token'),process.env.ACCESS_TOKEN)
                 if(access.includes(req.user.payload.role)) next()
-                else res.send("can't")
+                else res.send("You Don’t Have Authorization to View this Page")
             }
             }else res.send('no token')
         }catch(e) { return res.status(400).send({message:e})  }     

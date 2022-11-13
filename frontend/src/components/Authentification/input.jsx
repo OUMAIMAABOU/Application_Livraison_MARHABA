@@ -8,6 +8,8 @@ function InputLogin() {
   const [Data, setData] = useState({email:"",password:""});
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
+  const [roles, setRole] = useState("");
+
 
   const onchange = (e) => {
     setData((prevState) => ({
@@ -20,13 +22,12 @@ function InputLogin() {
     axios
       .post("http://localhost:8080/api/auth/login", Data)
       .then((response) => {
-        localStorage.setItem("token", response.data);
+        localStorage.setItem("token", response.data.token);
 
         setData("");
         setSucess(true);
-        // const accessToken = response?.data?.token;
-        // const roles = response?.data?.role;
-
+        setRole(response.data.role)
+      
         })
         .catch(function (err) {
 console.log(err.response)
@@ -45,10 +46,17 @@ console.log(err.response)
   };
 
   useEffect(() => {
-    {sucess ? (
-      navig("/home")
-    ):(console.log('err') )
-  }
+    if(sucess){
+   if(roles === "Client"){
+       navig("/home") 
+      } 
+      if (roles === "Manager"){
+        navig("/dash") 
+       }
+    } 
+  
+   else (console.log('err') )
+  
 },[Data]);
 
 
