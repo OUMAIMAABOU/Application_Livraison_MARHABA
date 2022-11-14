@@ -1,9 +1,9 @@
 import { useState,useEffect } from "react";
-import {useNavigate,useParams} from "react-router-dom";
+import {useParams,useNavigate} from "react-router-dom";
 
 import axios from "axios";
 function Restpassword() {
-    //  const navig=useNavigate()
+  const navigate = useNavigate()
   const [data, setdata] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
@@ -17,13 +17,9 @@ const onchange = (e) => {
 };
   const onSubmit = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:8080/api/auth/forgetpassword/${params}`, data)
+    axios.put(`http://localhost:8080/api/auth/forgetpassword/${params}`, data)
       .then((response) => {
-        console.log(params)
-        console.log(response)
 
-
-        // setdata("");
         setSucess(true);
       
         })
@@ -43,23 +39,18 @@ console.log(err.response)
         });
   };
 
-//   useEffect(() => {
-//     if(sucess){
-//    if(roles === "Client"){
-//        navig("/home") 
-//       } 
-//       if (roles === "Manager"){
-//         navig("/dash") 
-//        }
-//     } 
+  useEffect(() => {
+    if(sucess){
+      navigate("/login")
+    } 
   
-//    else (console.log('err') )
+   else (console.log('err') )
   
-// },[Data]);
+},[data]);
   return (
     <div className="App">
       <header className="App-header">
-        <section className="h-full gradient-form bg-gray-200 md:h-screen">
+        <section className="h-full btn bg-gray-200 md:h-screen">
           <div className="container-fluid py-20 px-6 h-full">
             <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
               <div className="block bg-white shadow-lg rounded-lg">
@@ -72,7 +63,7 @@ console.log(err.response)
                         alt="logo"
                       />
                       <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        Forgot password{" "}
+                        Rest password{" "}
                       </h4>
                     </div>
                     <div>
@@ -86,7 +77,7 @@ console.log(err.response)
                           {sucess}
                         </p>
                         <div>
-                          <p className="mb-4">Please verify your data address</p>
+                          <p className="mb-4">Please remember your password   </p>
                           <div className="mb-4">
                             <input
                               type="password"

@@ -7,28 +7,16 @@ function InpuRegister() {
   const EMAIL_REGEX = /^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/;
 
   const errRef = useRef();
-  // const userRef=useRef()
 
   const [Data, setData] = useState("");
-  // [name,email,password,address]=Data
   const [matchPwd, setMatchPwd] = useState("");
   const [pwd, setPwd] = useState("");
 
   const [validemail, setValidemail] = useState(false);
-  // const [userFocus,setUserFocus]=useState(false)
 
   const [errMsg, setErrMsg] = useState("");
 
   const [sucess, setSucess] = useState(false);
-
-  // useEffect(()=>{
-  //   userRef.current.focus()
-  // },[])
-
-  // useEffect(() => {
-  //   setErrMsg("");
-  //   console.log('im here')
-  // }, [Data]);
 
   const onchange = (e) => {
     setData((prevState) => ({

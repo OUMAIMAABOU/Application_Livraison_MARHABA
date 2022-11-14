@@ -103,10 +103,16 @@ exports.changepassword =async (req, res) =>
 exports.ForgetPassword  = async(req, res) => 
 {
   const user = await User.findOne({email:req.body.email})
-  if(!user) res.send('invalide mail')
+  try {
+     if(!user) res.json('invalide mail')
   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
   sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/restpassword/')  
-  res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
+  res.json("verifies votre email")  
+  } catch (error) {
+  res.json(error)  
+    
+  }
+  
 }
 
 // method : get => url : api/auth/welcome =>acces : private

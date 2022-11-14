@@ -1,12 +1,11 @@
 import Input from "./input";
-
 function Login() {
   return (
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <section className="h-full gradient-form bg-gray-200 md:h-screen">
-          <div className="container-fluid py-20 px-6 h-full">
+          <div className="container-fluid py-10 px-6 ">
             <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
               <div className="xl:w-10/12">
                 <div className="block bg-white shadow-lg rounded-lg">

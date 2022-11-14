@@ -1,9 +1,9 @@
 import { useState,useEffect } from "react";
-import {useNavigate} from "react-router-dom";
+// import {useNavigate} from "react-router-dom";
 
 import axios from "axios";
 function Forgotpassword() {
-     const navig=useNavigate()
+    //  const navig=useNavigate()
   const [email, setEmail] = useState({email:""});
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
@@ -20,40 +20,23 @@ function Forgotpassword() {
       .post("http://localhost:8080/api/auth/forgetpassword", email)
       .then((response) => {
         console.log(response)
-
-        // setEmail("");
-        setSucess(true);
+        setSucess(response.data);
       
         })
         .catch(function (err) {
-console.log(err.response)
+          setErrMsg(err.response)
           if (!err.response) {
             setErrMsg("No Server Response");
           } else if (err.response?.status === 400) {
-            setErrMsg("password or email incorrect");
-          } 
-          // else {
-          //   setErrMsg("login Failed");
-          // } 
+            setErrMsg("email incorrect");
+          }  
           else {
             setErrMsg(err);
           }
         });
   };
 
-//   useEffect(() => {
-//     if(sucess){
-//    if(roles === "Client"){
-//        navig("/home") 
-//       } 
-//       if (roles === "Manager"){
-//         navig("/dash") 
-//        }
-//     } 
-  
-//    else (console.log('err') )
-  
-// },[Data]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -70,13 +53,14 @@ console.log(err.response)
                         alt="logo"
                       />
                       <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        Forgot password{" "}
+                        Forgot password
                       </h4>
                     </div>
-                    <div>
+                    
+                    <p>
+                     </p>
                       <form onSubmit={onSubmit}>
-                        <p className="text-red-500 font-bold text-center ">
-                          {" "}
+                        <p className="text-red-500 font-bold text-center "> 
                           {errMsg}
                         </p>
 
@@ -110,7 +94,8 @@ console.log(err.response)
                          
                         </div>
                       </form>
-                    </div>
+                      {/* </div> */}
+                    {/* </div> */}
                   </div>
                 </div>
               </div>
