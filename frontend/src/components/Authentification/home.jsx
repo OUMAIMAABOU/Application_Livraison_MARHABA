@@ -1,31 +1,55 @@
-import logo from '../../assets/undraw_Order_delivered_re_v4ab.png'; 
-import {Link} from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
-
-function Homepage() {
-
+function Home() {
+  const [user, setuser] = useState({});
+  axios.get("http://localhost:8080/api/auth/client/me").then((resp) => {
+    setuser({
+      username: resp.data.username,
+      email: resp.data.email,
+      role: resp.data.role,
+    });
+  });
   return (
-<div className="pt-24">
-<div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-  <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-    <p className="uppercase tracking-loose w-full">What business are you?</p>
-    <h1 className="my-4 text-5xl font-bold leading-tight">
-      Main Hero Message to sell yourself!
-    </h1>
-    <p className="leading-normal text-2xl mb-8">
-      Sub-hero message, not too long and not too short. Make it just right!
-    </p>
-    <button className="mx-auto btncolor lg:mx-0 hover:underline text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-    <Link to="/login">login</Link>  
+    <section class="mt-20 w-3/12 mx-auto bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
+      <div className="flex items-center justify-between">
+        <span className="text-emerald-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+            />
+          </svg>
+        </span>
+      </div>
+      <div className="mt-6 w-fit mx-auto">
+        <img
+          className="rounded-full w-28"
+          src="https://api.lorem.space/image/face?w=120&h=120&hash=bart89fe"
+          alt="profile picture"
+        />
+      </div>
+      <div className="mt-8 ">
+        <h2 class="text-white font-bold text-2xl tracking-wide">
+        <p className="text-center">{user.username} </p>  
+        <p className="text-center"> {user.email}</p>
+        </h2>
+      </div>
+      <p className="text-emerald-400 font-semibold mt-2.5 text-2xl text-center">{user.role}</p>
 
-    </button>
-  </div>
-  <div className="w-full md:w-3/5 py-6 text-center">
-     <img src={logo} alt="Logo" />;
-
-  </div>
-</div>
-</div>
+      <div className="h-1 w-full bg-black mt-8 rounded-full">
+        <div className="h-1 rounded-full w-2/5 bg-yellow-500 "></div>
+      </div>
+      
+    </section>
   );
 }
-export default Homepage;
+export default Home;

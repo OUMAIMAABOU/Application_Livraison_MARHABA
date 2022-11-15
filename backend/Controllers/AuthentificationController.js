@@ -118,7 +118,7 @@ exports.ForgetPassword  = async(req, res) =>
 // method : get => url : api/auth/welcome =>acces : private
 exports.welcome  = async(req, res) => 
 {
-  res.json("Bonjour "+req.user.payload.username+",votre rôle est :" +req.user.payload.role)
+  res.json({username:req.user.payload.username,role:req.user.payload.role,email:req.user.payload.email})
 }
 
 

@@ -1,33 +1,31 @@
-import { useState } from "react";
-import axios from "axios";
+import logo from '../../assets/undraw_Order_delivered_re_v4ab.png'; 
+import {Link} from "react-router-dom";
 
-function Home() {
-  const [user, setuser] = useState("");
-  axios.get("http://localhost:8080/api/auth/client/me").then((resp) => {
-    setuser(resp.data);
-  });
+
+function Homepage() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <section className="h-full gradient-form bg-gray-200 md:h-screen">
-          <div className="container-fluid py-20 px-6 h-full">
-            <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-              <div className="block bg-white shadow-lg rounded-lg">
-                <div className="lg:flex lg:flex-wrap g-0">
-                  <div className="md:p-12 md:mx-6">
-                    <div className="text-center">
-                      <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        {user}
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </header>
-    </div>
+<div className="pt-24">
+<div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+  <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+    <p className="uppercase tracking-loose w-full">What business are you?</p>
+    <h1 className="my-4 text-5xl font-bold leading-tight">
+      Main Hero Message to sell yourself!
+    </h1>
+    <p className="leading-normal text-2xl mb-8">
+      Sub-hero message, not too long and not too short. Make it just right!
+    </p>
+    <button className="mx-auto btncolor lg:mx-0 hover:underline text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+    <Link to="/login">login</Link>  
+
+    </button>
+  </div>
+  <div className="w-full md:w-3/5 py-6 text-center">
+     <img src={logo} alt="Logo" />;
+
+  </div>
+</div>
+</div>
   );
 }
-export default Home;
+export default Homepage;

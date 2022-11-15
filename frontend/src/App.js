@@ -3,7 +3,7 @@ import {
   Routes,
   Route,
   BrowserRouter,
-  Register, 
+  Register,
   Restpassword,
   Forgotpassword,
   Activecompte,
@@ -13,7 +13,6 @@ import {
   ProductRout,
   Header,Homepage
 } from "./route";
-
 // import Merge from './components/Authentification/mergecomp'
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
         <Header />
         <Routes>
           <Route element={<ProductRout />}>
-            <Route path="/home" element={<Home/>} />  
+            <Route path="/home" element={<Home />} />
             <Route path="/dash" element={<Dashboard />} />
             <Route path="/verification" element={<Verification />} />
           </Route>
