@@ -30,9 +30,7 @@ function Home() {
       </div>
       <p className="text-emerald-400 font-semibold mt-2.5 text-2xl text-center">{user.role}</p>
 
-      <div className="h-1 w-full bg-black mt-8 rounded-full">
-        <div className="h-1 rounded-full w-2/5 bg-yellow-500 "></div>
-      </div>
+     
       
     </section>
   );

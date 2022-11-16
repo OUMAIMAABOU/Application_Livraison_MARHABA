@@ -19,10 +19,8 @@ const onchange = (e) => {
     e.preventDefault();
     axios.put(`http://localhost:8080/api/auth/forgetpassword/${params}`, data)
       .then((response) => {
-
-        setSucess(true);
-      
-        })
+        setSucess(response.data);
+            })
         .catch(function (err) {
 console.log(err.response)
           if (!err.response) {
@@ -63,13 +61,13 @@ console.log(err.response)
                         alt="logo"
                       />
                       <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        Rest password{" "}
+                        Rest password
                       </h4>
                     </div>
                     <div>
                       <form onSubmit={onSubmit}>
                         <p className="text-red-500 font-bold text-center ">
-                          {" "}
+                       
                           {errMsg}
                         </p>
 

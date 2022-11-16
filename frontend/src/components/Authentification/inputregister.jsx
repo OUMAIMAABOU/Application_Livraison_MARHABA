@@ -7,37 +7,40 @@ function InpuRegister() {
   const EMAIL_REGEX = /^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/;
 
   const errRef = useRef();
-
-  const [Data, setData] = useState("");
-  const [matchPwd, setMatchPwd] = useState("");
-  const [pwd, setPwd] = useState("");
-
-  const [validemail, setValidemail] = useState(false);
-
+  const [Data, setData] = useState({});
   const [errMsg, setErrMsg] = useState("");
-
   const [sucess, setSucess] = useState(false);
+  const refPassword=useRef()
+  const refCpassword=useRef()
+  const refEmail=useRef()
+  const refName=useRef()
+  const refPhone=useRef()
 
   const onchange = (e) => {
-    setData((prevState) => ({
-      ...prevState,
+    setData(() => ({
+      ...Data,
       [e.target.name]: e.target.value,
-    }));
+    }));   
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!Data) {
-      setErrMsg("Remplir tous les champs");
-      setData("");
-      return;
-    }
-    // if (!setValidemail(EMAIL_REGEX.test(validemail))) {
-    //   setErrMsg("invalid email");
+    // if (refPassword.current.value==""||refEmail.current.value==""||refCpassword.current.value==""||refPhone.current.value=="") {
+    //   setErrMsg("Remplir tous les champs");
+    //   setData("");
     //   return;
     // }
-    try {
+    // if (refPassword.current.value != refCpassword.current.value) {
+    //   setErrMsg("invalid email");
+    //   setData("");
+    //   return;
+    // }
+    // if (EMAIL_REGEX.test(refEmail.current.value)) {
+    //   setErrMsg("invalid password");
+    //   setData("");
+    //   return;
+    // }
       axios
-        .post("http://localhost:8080/api/auth/register", Data)
+        .post("http://localhost:8080/api/auth/register",Data)
         .then((response) => {
           // sucess(response)
           console.log(response);
@@ -45,6 +48,7 @@ function InpuRegister() {
           setData("");
         })
         .catch(function (err) {
+          console.log(err)
           if (!err.response) {
             setErrMsg("No Server Response");
           } else if (err.response?.status === 400) {
@@ -53,7 +57,7 @@ function InpuRegister() {
             setErrMsg("Registration Failed");
           }
         });
-    } catch (err) {}
+    
   };
   return (
     <>
@@ -74,28 +78,26 @@ function InpuRegister() {
               <div className="mb-4">
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   placeholder="Username"
                   onChange={onchange}
+                  ref={refName}
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
               </div>
               <div className="mb-4">
                 <input
                   type="email"
-                  id="email"
                   name="email"
                   placeholder="mail"
                   onChange={onchange}
-                  aria-invalid={validemail ? "false" : "true"}
+                  ref={refEmail}
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
               </div>
               <div className="mb-4">
                 <input
                   type="text"
-                  id="address"
                   name="address"
                   onChange={onchange}
                   placeholder="address"
@@ -105,32 +107,20 @@ function InpuRegister() {
               <div className="mb-4">
                 <input
                   type="text"
-                  id="phoneNumber"
                   name="phoneNumber"
                   onChange={onchange}
+                  ref={refPhone}
                   placeholder="phone Number"
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
               </div>
-              {/* <div className="mb-4">
-                <select
-                  className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
-                  name="roleid"
-                  id="role"
-                  onChange={onchange}
-                >
-                  <option value="" >--Please choose an option--</option>
-                  <option value="6357b165f7dbe3fbe0e71f45">Manager</option>
-                  <option value="6357b165f7dbe3fbe0e71f47">Client</option>
-                  <option value="6357b165f7dbe3fbe0e71f46">Livreure</option>
-                </select>
-              </div> */}
+             
               <div className="mb-4">
                 <input
                   type="password"
-                  id="password"
                   name="password"
                   onChange={onchange}
+                  ref={refPassword}
                   placeholder="Password"
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
@@ -138,10 +128,10 @@ function InpuRegister() {
               <div className="mb-4">
                 <input
                   type="password"
-                  id="matchPwd"
-                  name="matchPwd"
+                  name="Cpassword"
                   onChange={onchange}
-                  placeholder="Password"
+                  ref={refCpassword}
+                  placeholder="C Password"
                   className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                 />
               </div>

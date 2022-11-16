@@ -11,7 +11,9 @@ import {
   Dashboard,
   Home,
   ProductRout,
-  Header,Homepage
+  Header,
+  Homepage,
+  Error,
 } from "./route";
 // import Merge from './components/Authentification/mergecomp'
 
@@ -24,14 +26,16 @@ function App() {
           <Route element={<ProductRout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/dash" element={<Dashboard />} />
-            <Route path="/verification" element={<Verification />} />
           </Route>
           <Route path="/configiration/:token" element={<Activecompte />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<Forgotpassword />} />
           <Route path="/restpassword/:token" element={<Restpassword />} />
-          <Route path="/" element={<Homepage/>} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verification" element={<Verification />} />
+
+          <Route path="/*" element={<Error />} />
 
         </Routes>
       </div>

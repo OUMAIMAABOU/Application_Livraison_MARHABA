@@ -2,9 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 
 function Dashboard() {
-  const [user, setuser] = useState("");
+  const [user, setuser] = useState({});
   axios.get("http://localhost:8080/api/auth/manager/me").then((resp) => {
-    setuser(resp.data);
+    setuser({
+      username: resp.data.username,
+      email: resp.data.email,
+      role: resp.data.role,
+    });
   });
   return (
     <div className="App">
@@ -17,7 +21,14 @@ function Dashboard() {
                   <div className="md:p-12 md:mx-6">
                     <div className="text-center">
                       <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        {user}
+                      <div className="mt-8 ">
+        <h2 class=" font-bold text-2xl tracking-wide">
+        <p className="text-center">{user.username} </p>  
+        <p className="text-center"> {user.email}</p>
+        </h2>
+        <p className="text-emerald-400 font-semibold mt-2.5 text-2xl text-center">{user.role}</p>
+
+      </div>
                       </h4>
                     </div>
                   </div>

@@ -106,7 +106,7 @@ exports.ForgetPassword  = async(req, res) =>
   try {
      if(!user) res.json('invalide mail')
   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
-  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/restpassword/')  
+  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/restpassword/')  
   res.json("verifies votre email")  
   } catch (error) {
   res.json(error)  

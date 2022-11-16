@@ -1,28 +1,35 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import {useNavigate,Link} from "react-router-dom";
 import {loginUserFn} from '../../Api/Authentification.Api'
 import axios from 'axios';
 
 
-// import axios from "axios";
 
 function InputLogin() {
   const navig=useNavigate()
   const [Data, setData] = useState({email:"",password:""});
+  const refPassword=useRef()
+  const refEmail=useRef()
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
   const [roles, setRole] = useState("");
 
 
   const onchange = (e) => {
-    setData((prevState) => ({
-      ...prevState,
+    setData(() => ({
+      ...Data,
       [e.target.name]: e.target.value,
     }));
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    axios
+    if (refPassword.current.value==""||refEmail.current.value=="") {
+      setErrMsg("Remplir tous les champs");
+      setData("");
+      return;
+    }
+  
+ axios
       .post("http://localhost:8080/api/auth/login", Data)
    .then((response) => {
         localStorage.setItem("token", response.data.token);
@@ -32,25 +39,24 @@ function InputLogin() {
         setRole(response.data.role)
       
         })
-        .catch(function (err) {
-console.log(err.response)
+        .catch((err)=>{
+          console.log(err)
           if (!err.response) {
             setErrMsg("No Server Response");
           } else if (err.response?.status === 400) {
             setErrMsg("password or email incorrect");
           } 
-          // else {
-          //   setErrMsg("login Failed");
-          // } 
           else {
             setErrMsg(err);
           }
         });
+  
+   
   };
 
   useEffect(() => {
     if(sucess){
-   if(roles === "Client"){
+   if(roles === "Client"||roles === "Livreure"){
        navig("/home") 
       } 
       if (roles === "Manager"){
@@ -79,6 +85,7 @@ console.log(err.response)
             placeholder="mail"
             name="email"
             onChange={onchange}
+            ref={refEmail}
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
           />
         </div>
@@ -88,6 +95,7 @@ console.log(err.response)
             id="password"
             placeholder="Password"
             name="password"
+            ref={refPassword}
             onChange={onchange}
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
           />
