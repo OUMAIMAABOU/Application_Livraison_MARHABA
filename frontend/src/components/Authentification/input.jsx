@@ -8,6 +8,9 @@ import axios from 'axios';
 function InputLogin() {
   const navig=useNavigate()
   const [Data, setData] = useState({email:"",password:""});
+  const [password, setpassword] = useState("");
+  const [email, setemail] = useState("");
+
   const refPassword=useRef()
   const refEmail=useRef()
   const [errMsg, setErrMsg] = useState("");
@@ -28,9 +31,10 @@ function InputLogin() {
       setData("");
       return;
     }
+    console.log(email)
   
  axios
-      .post("http://localhost:8080/api/auth/login", Data)
+      .post("http://localhost:8080/api/auth/login", {email,password})
    .then((response) => {
         localStorage.setItem("token", response.data.token);
 
@@ -84,7 +88,8 @@ function InputLogin() {
             id="name"
             placeholder="mail"
             name="email"
-            onChange={onchange}
+            // onChange={onchange}
+            onChange={e=>setemail(e.target.value)}
             ref={refEmail}
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
           />
@@ -96,7 +101,9 @@ function InputLogin() {
             placeholder="Password"
             name="password"
             ref={refPassword}
-            onChange={onchange}
+            // onChange={onchange}
+            onChange={e=>setpassword(e.target.value)}
+
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
           />
         </div>

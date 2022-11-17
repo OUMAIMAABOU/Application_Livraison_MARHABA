@@ -24,21 +24,7 @@ function InpuRegister() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    // if (refPassword.current.value==""||refEmail.current.value==""||refCpassword.current.value==""||refPhone.current.value=="") {
-    //   setErrMsg("Remplir tous les champs");
-    //   setData("");
-    //   return;
-    // }
-    // if (refPassword.current.value != refCpassword.current.value) {
-    //   setErrMsg("invalid email");
-    //   setData("");
-    //   return;
-    // }
-    // if (EMAIL_REGEX.test(refEmail.current.value)) {
-    //   setErrMsg("invalid password");
-    //   setData("");
-    //   return;
-    // }
+    
       axios
         .post("http://localhost:8080/api/auth/register",Data)
         .then((response) => {

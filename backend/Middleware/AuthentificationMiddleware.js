@@ -14,7 +14,7 @@ function verifyToken(access){
                 if(access.includes(req.user.payload.role)) next()
                 else res.send("You Don’t Have Authorization to View this Page")
             }
-            }else res.send('no token')
+            }else res.send('You Don’t Have Authorization to View this Page')
         }catch(e) { return res.status(400).send({message:e})  }     
     }
 }

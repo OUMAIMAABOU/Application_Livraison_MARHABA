@@ -28,10 +28,10 @@ exports.Login = async (req,res) => {
           res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
           sendEmail(payload.email,token,payload.username,'to activate your account','/api/auth/configiration/')  
         }
-      }
-    }
-      // else res.send("password invalide")
-    // }else  res.send("can't find user")
+      }else res.send("password invalide")
+    }else  res.send("can't find user")
+  // }
+  //   
   }catch(e){ return res.status(400).send({message:e})  }      
 }
 
@@ -61,7 +61,7 @@ exports.Register = async(req, res) => {
 exports.verificationtoken =  (req,res) => 
 { 
   User.updateOne({token:req.params.token},{is_active:true})
-  .then(result=>{res.send(result)})
+  .then(result=>{res.json(result)})
   .catch(e=>{ console.log(e)}) 
 }
 
@@ -74,7 +74,9 @@ function gererateAccessToken (user,expirestime)
 // function the validation email
 function verificationemail(email) 
 {
- return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
+
+    return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
+
 }
 
 // method : put => url : api/auth/login =>acces : private
@@ -97,6 +99,7 @@ exports.changepassword =async (req, res) =>
   User.updateOne({_id:decodedToken.id},{password:await bcryptjs.hash(req.body.password,10)})
   .then(result=>{res.send(result)})
   .catch(e=>{ console.log(e)}) 
+
 };
 
 // method : post => url : api/auth/forgetpassword =>acces : public
