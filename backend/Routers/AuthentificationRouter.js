@@ -9,5 +9,7 @@ module.exports = app =>
   router.put('/resetpassword',verifyToken(["Manager","Livreure","Client"]), Authentification.ResetPassword)
   router.post('/forgetpassword',Authentification.ForgetPassword)
   router.put('/forgetpassword/:token',Authentification.changepassword)
+
+
   app.use('/api/auth/', router);
 };

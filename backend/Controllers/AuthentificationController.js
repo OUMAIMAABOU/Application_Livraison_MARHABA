@@ -20,16 +20,18 @@ exports.Login = async (req,res) => {
         if(users.is_active)
         {
           localstorage('token',gererateAccessToken({payload},"120m"))
-          res.json({payload})
+          res.json({token:localstorage('token'),role:users.roleid.role})
         }else
         {
           const token=crypto.randomBytes(32).toString("hex")
           await User.updateOne({_id:users._id},{token:token})
-          res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
+          res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
           sendEmail(payload.email,token,payload.username,'to activate your account','/api/auth/configiration/')  
         }
       }else res.send("password invalide")
-    }else res.send("can't find user")
+    }else  res.send("can't find user")
+  // }
+  //   
   }catch(e){ return res.status(400).send({message:e})  }      
 }
 
@@ -41,11 +43,13 @@ exports.Register = async(req, res) => {
   {
     if(verificationemail(body.email))
     {
+     const findrole=await role.findOne({role:"Client"})
       body.password=await bcryptjs.hash(body.password,10)
       body.token=crypto.randomBytes(32).toString("hex")
+      body.roleid=findrole._id
       await User.create({...body})
       res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
-      sendEmail(body.email,body.token,body.name,'to activate your account','/api/auth/configiration/') 
+      sendEmail(body.email,body.token,body.name,'to activate your account','/configiration/') 
     }else res.send('invalide mail')
   }catch(e)
   {
@@ -57,7 +61,7 @@ exports.Register = async(req, res) => {
 exports.verificationtoken =  (req,res) => 
 { 
   User.updateOne({token:req.params.token},{is_active:true})
-  .then(result=>{res.send(result)})
+  .then(result=>{res.json(result)})
   .catch(e=>{ console.log(e)}) 
 }
 
@@ -70,7 +74,9 @@ function gererateAccessToken (user,expirestime)
 // function the validation email
 function verificationemail(email) 
 {
- return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
+
+    return email.match(/^[a-zA-Z0-9_.+]+@[a-zA-Z0-9-.]+\.[a-zA-Z0-9-.]+$/)
+
 }
 
 // method : put => url : api/auth/login =>acces : private
@@ -93,22 +99,29 @@ exports.changepassword =async (req, res) =>
   User.updateOne({_id:decodedToken.id},{password:await bcryptjs.hash(req.body.password,10)})
   .then(result=>{res.send(result)})
   .catch(e=>{ console.log(e)}) 
+
 };
 
 // method : post => url : api/auth/forgetpassword =>acces : public
 exports.ForgetPassword  = async(req, res) => 
 {
   const user = await User.findOne({email:req.body.email})
-  if(!user) res.send('invalide mail')
+  try {
+     if(!user) res.json('invalide mail')
   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
-  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
-  res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
+  sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/restpassword/')  
+  res.json("verifies votre email")  
+  } catch (error) {
+  res.json(error)  
+    
+  }
+  
 }
 
 // method : get => url : api/auth/welcome =>acces : private
 exports.welcome  = async(req, res) => 
 {
-  res.json("Bonjour "+req.user.payload.username+",votre rôle est :" +req.user.payload.role)
+  res.json({username:req.user.payload.username,role:req.user.payload.role,email:req.user.payload.email})
 }
 
 

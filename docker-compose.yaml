@@ -1,0 +1,17 @@
+version: "3.1"
+services:
+  front-end:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/oumaima
+    depends_on:
+      - back-end
+  back-end:
+    build: ./backend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend:/oumaima
+  

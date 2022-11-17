@@ -17,7 +17,7 @@ exports.sendEmail = (email,activemail,username,msg,route)=>
     from: process.env.USER, 
     to: email, 
     subject: "confirmer email",  
-    html: "<h3>HELLO " + username+'?</h3><p> Please click <a href="http://localhost:8080'+route+activemail+ '"> here </a> '+msg+'</p>',
+    html: "<h3>HELLO " + username+'?</h3><p> Please click <a href="http://localhost:3000'+route+activemail+ '"> here </a> '+msg+'</p>',
   },
   (error,info)=>
   {
