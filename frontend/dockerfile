@@ -1,17 +1,6 @@
 FROM node:16
-
-EXPOSE 3000
-
-COPY . /oumaima
-
-WORKDIR /oumaima
-RUN npm install -g nodemon
-CMD nodemon -L app.js
-# install app dependencies
-# COPY package.json
-# RUN npm install
-
-# #bundle app source
-# # COPY 
-
-# CMD["npm","start"]
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+CMD ["npm", "start"]

@@ -1,17 +1,60 @@
-version: "3.1"
+version: '3'
 services:
   front-end:
     build: ./frontend
     ports:
       - 3000:3000
+    restart: always
     volumes:
-      - ./frontend:/oumaima
-    depends_on:
-      - back-end
+      - ./frontend:/app
   back-end:
-    build: ./backend
-    ports:
-      - 8080:8080
+    restart: always
+    build:
+      context: ./backend 
     volumes:
-      - ./backend:/oumaima
+    - /app/node_modules 
+    - ./backend:/app 
+    ports:
+     - 8080:8080
+    depends_on:
+     - mongodb
+    environment:  
+      NODE_ENV: ENV NODE_ENV
+      MONG_URL: mongodb+srv://root2:root@cluster0.xrtofu4.mongodb.net/livraison_marhaba?retryWrites=true&w=majority
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ENV DB_USER_NAM
+      MONGO_INITDB_ROOT_PASSWORD: ENV DB_USER_PASSWORD 
+    volumes:
+     - mongoose-data:/data/db 
+   
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   depends_on:
+  #     - mongodb
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ENV DB_USER_NAM
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: ENV DB_USER_PASSWORD
+  #     ME_CONFIG_MONGODB_URL: ENV MONG_URL 
+  #     ME_CONFIG_MONGODB_SERVER: mongodb
+      # links: 
+      #  - mongodb:mongodb
+    # volumes:
+    #  - mongoose-data
+    # networks:
+    #   - livraison-networks    
+networks:
+  livraison-networks:
+    driver: bridge
+# volumes:
+#   mongoose-data:
+#    driver: local
+ 
+
+       
   

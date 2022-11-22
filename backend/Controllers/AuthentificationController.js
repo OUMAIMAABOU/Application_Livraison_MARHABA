@@ -4,7 +4,7 @@ const role = require('../Models/RoleModel')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const localstorage=require('local-storage')
-const {sendEmail}= require('../Config/nodemailer')
+const {sendEmail}= require('../Utils/Email.Utils')
 const crypto = require("crypto");
 
 // method : post => url : api/auth/login =>acces : Public

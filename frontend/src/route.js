@@ -10,7 +10,7 @@ import Activecompte from "./components/Authentification/Activecompte";
 import Forgotpassword from "./components/Authentification/ForgotPassword";
 import Restpassword from "./components/Authentification/restpassword";
 import Header from "./components/Authentification/Header";
-import Homepage from "./components/Authentification/Homepage";
+import Homepage from "./components/Authentification/homepage";
 import Error from "./components/Authentification/Error404";
 
 export {

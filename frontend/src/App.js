@@ -15,7 +15,6 @@ import {
   Homepage,
   Error,
 } from "./route";
-// import Merge from './components/Authentification/mergecomp'
 
 function App() {
   return (
