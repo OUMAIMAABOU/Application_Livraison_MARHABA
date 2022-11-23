@@ -7,6 +7,8 @@ services:
     restart: always
     volumes:
       - ./frontend:/app
+    networks:
+     - livraison-networks
   back-end:
     restart: always
     build:
@@ -16,44 +18,35 @@ services:
     - ./backend:/app 
     ports:
      - 8080:8080
+    networks:
+     - livraison-networks     
+    env_file: ./backend/.env
+    # environment:  
+    #   - MONG_URL = "${MONG_URL}"
     depends_on:
      - mongodb
-    environment:  
-      NODE_ENV: ENV NODE_ENV
-      MONG_URL: mongodb+srv://root2:root@cluster0.xrtofu4.mongodb.net/livraison_marhaba?retryWrites=true&w=majority
   mongodb:
     image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ENV DB_USER_NAM
-      MONGO_INITDB_ROOT_PASSWORD: ENV DB_USER_PASSWORD 
+    env_file:
+      - ./backend/.env  
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: ${DB_USER_NAME}
+    #   MONGO_INITDB_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+    ports:
+     - "27017:27017"
+    networks:
+     - livraison-networks
     volumes:
-     - mongoose-data:/data/db 
-   
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   depends_on:
-  #     - mongodb
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ENV DB_USER_NAM
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: ENV DB_USER_PASSWORD
-  #     ME_CONFIG_MONGODB_URL: ENV MONG_URL 
-  #     ME_CONFIG_MONGODB_SERVER: mongodb
-      # links: 
-      #  - mongodb:mongodb
-    # volumes:
-    #  - mongoose-data
-    # networks:
-    #   - livraison-networks    
+     - /data/db 
 networks:
   livraison-networks:
     driver: bridge
-# volumes:
-#   mongoose-data:
-#    driver: local
+volumes:
+  mongoose-data:
+   driver: local
+   driver_opts:
+      size: "10GiB"
  
 
        
