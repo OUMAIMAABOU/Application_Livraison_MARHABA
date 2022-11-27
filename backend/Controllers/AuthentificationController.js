@@ -20,13 +20,14 @@ exports.Login = async (req,res) => {
         if(users.is_active)
         {
           localstorage('token',gererateAccessToken({payload},"120m"))
-          res.json({token:localstorage('token'),role:users.roleid.role})
+          res.status(200).json({token:localstorage('token'),role:users.roleid.role})
         }else
         {
           const token=crypto.randomBytes(32).toString("hex")
           await User.updateOne({_id:users._id},{token:token})
-          res.json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
+          res.status(200).json("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")
           sendEmail(payload.email,token,payload.username,'to activate your account','/api/auth/configiration/')  
+          
         }
       }else res.send("password invalide")
     }else  res.send("can't find user")
@@ -107,10 +108,10 @@ exports.ForgetPassword  = async(req, res) =>
 {
   const user = await User.findOne({email:req.body.email})
   try {
-     if(!user) res.json('invalide mail')
+     if(!user) res.status(400).json('invalide mail')
   localstorage('verifitoken',gererateAccessToken({id:user._id},"10m"))
   sendEmail(user.email,localstorage('verifitoken'),user.name,'to reset your password','/restpassword/')  
-  res.json("verifies votre email")  
+  res.status(200).json("verifies votre email")  
   } catch (error) {
   res.json(error)  
     

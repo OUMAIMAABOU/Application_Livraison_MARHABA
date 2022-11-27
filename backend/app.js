@@ -23,3 +23,4 @@ app.use(RouteErrorHandler)
 app.listen(process.env.PORT||3030,()=>{
     console.log(`http://localhost:${process.env.PORT}`)
 })
+module.exports=app
