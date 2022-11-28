@@ -14,6 +14,7 @@ function InputLogin() {
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
   const [roles, setRole] = useState("");
+  const navig=useNavigate()
 
   const onchange = (e) => {
     setData(() => ({
@@ -56,7 +57,6 @@ function InputLogin() {
   };
 
   useEffect(() => {
-    const navig=useNavigate()
     if(sucess){
    if(roles === "Client"||roles === "Livreure"){
        navig("/home") 
