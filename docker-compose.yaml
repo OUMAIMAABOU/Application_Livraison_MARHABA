@@ -20,9 +20,7 @@ services:
      - 8080:8080
     networks:
      - livraison-networks     
-    env_file: ./backend/.env
-    # environment:  
-    #   - MONG_URL = "${MONG_URL}"
+    # env_file: ./backend/.env
     depends_on:
      - mongodb
   mongodb:
@@ -30,9 +28,9 @@ services:
     restart: always
     env_file:
       - ./backend/.env  
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: ${DB_USER_NAME}
-    #   MONGO_INITDB_ROOT_PASSWORD: ${DB_USER_PASSWORD}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root2
+      MONGO_INITDB_ROOT_PASSWORD: root
     ports:
      - "27017:27017"
     networks:
@@ -46,8 +44,4 @@ volumes:
   mongoose-data:
    driver: local
    driver_opts:
-      size: "10GiB"
- 
-
-       
-  
+      size: "10GiB"  
