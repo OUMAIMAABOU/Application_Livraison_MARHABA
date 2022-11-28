@@ -1,11 +1,10 @@
 import { useState,useEffect,useRef } from "react";
 import {useNavigate,Link} from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 
 
 function InputLogin() {
-  const navig=useNavigate()
   const [Data, setData] = useState({email:"",password:""});
   const [password, setpassword] = useState("");
   const [email, setemail] = useState("");
@@ -15,7 +14,6 @@ function InputLogin() {
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
   const [roles, setRole] = useState("");
-
 
   const onchange = (e) => {
     setData(() => ({
@@ -58,6 +56,7 @@ function InputLogin() {
   };
 
   useEffect(() => {
+    const navig=useNavigate()
     if(sucess){
    if(roles === "Client"||roles === "Livreure"){
        navig("/home") 
@@ -84,7 +83,7 @@ function InputLogin() {
         <div className="mb-4">
           <input
             type="text"
-            id="name"
+            id="email"
             placeholder="mail"
             name="email"
             // onChange={onchange}
