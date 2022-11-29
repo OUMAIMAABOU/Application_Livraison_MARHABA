@@ -2,9 +2,7 @@ import { useState,useEffect,useRef } from "react";
 import {useNavigate,Link} from "react-router-dom";
 import axios from "axios";
 
-
-
-function InputLogin() {
+ function Input() {
   const [Data, setData] = useState({email:"",password:""});
   const [password, setpassword] = useState("");
   const [email, setemail] = useState("");
@@ -16,12 +14,6 @@ function InputLogin() {
   const [roles, setRole] = useState("");
   const navig=useNavigate()
 
-  const onchange = (e) => {
-    setData(() => ({
-      ...Data,
-      [e.target.name]: e.target.value,
-    }));
-  };
   const onSubmit = (e) => {
     e.preventDefault();
     if (refPassword.current.value==""||refEmail.current.value=="") {
@@ -55,7 +47,6 @@ function InputLogin() {
   
    
   };
-
   useEffect(() => {
     if(sucess){
    if(roles === "Client"||roles === "Livreure"){
@@ -70,9 +61,7 @@ function InputLogin() {
   
 },[Data]);
 
-
-  return (
-  
+  return (  
     <form onSubmit={onSubmit}>
    
             <p className="text-red-500 font-bold text-center "> {errMsg}</p>
@@ -84,9 +73,9 @@ function InputLogin() {
           <input
             type="text"
             id="email"
+            data-testid="email"
             placeholder="mail"
             name="email"
-            // onChange={onchange}
             onChange={e=>setemail(e.target.value)}
             ref={refEmail}
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
@@ -98,8 +87,8 @@ function InputLogin() {
             id="password"
             placeholder="Password"
             name="password"
+            data-testid="password"
             ref={refPassword}
-            // onChange={onchange}
             onChange={e=>setpassword(e.target.value)}
 
             className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
@@ -108,6 +97,7 @@ function InputLogin() {
         <div className="text-center pt-1 mb-12 pb-1">
           <button
             type="submit"
+            data-testid="submit"
             className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 btncolor"
           >
             Log in
@@ -134,5 +124,7 @@ function InputLogin() {
     
   );
 }
-
-export default InputLogin;
+export {
+  Input,
+};
+// export Input;

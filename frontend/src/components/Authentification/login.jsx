@@ -1,4 +1,4 @@
-import Input from "./input";
+import {Input} from "./input";
 function Login() {
   return (
     <div className="App">
